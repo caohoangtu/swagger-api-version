@@ -1,0 +1,9 @@
+.phpunit.result.cache
+.php-cs-fixer.cache
+bin/
+!bin/openapi
+composer.lock
+docs/.vitepress/dist/
+docs/node_modules/
+docs/package-lock.json
+vendor/

@@ -1,0 +1,40 @@
+version: '3.7'
+services:
+
+  mysql:
+    image: mysql:5.7
+    container_name: todo-database
+    platform: linux/x86_64
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-todo:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: admin12345678
+      MYSQL_DATABASE: todo
+
+  todo-app:
+    build:
+      context: ./docker/php
+    container_name: todo-app
+    volumes:
+      - ./:/home/source/main
+    working_dir: /home/source/main
+
+  todo-nginx:
+    build:
+      context: ./docker/nginx
+    container_name: todo-nginx
+    ports:
+      - "8000:80"
+    depends_on:
+      - todo-app
+    volumes:
+      - .:/home/source/main
+
+volumes:
+  mysql-todo:
+
+networks:
+  default:
+    name: todo
